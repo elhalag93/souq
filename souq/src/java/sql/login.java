@@ -30,9 +30,9 @@ public class login extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
          PrintWriter out = response.getWriter();
-        String username = request.getParameter("use_name");
+        String email = request.getParameter("email");
         String password = request.getParameter("password");
-        if(username.equals("")||password.equals("")){
+        if(email.equals("")||password.equals("")){
             response.sendRedirect("login.html");
 
         }
@@ -44,18 +44,22 @@ public class login extends HttpServlet {
         con = new connect();
         try {
             conn = con.establish();
-            pst = conn.prepareStatement("select * from users where user_name=?");
-            pst.setString(1, username);
+            pst = conn.prepareStatement("select * from users where email=?");
+            pst.setString(1, email);
             ResultSet result = pst.executeQuery();
             result.next();
             out.println(result.getString("password"));
             if (result.getString("password").equals(password)) {
                   session.setAttribute("login", "true");
                   session.setAttribute("privilege",result.getString("privilege") );
-                response.sendRedirect("all_users");
+//                response.sendRedirect("log/login.html");
+
+               response.sendRedirect("all_users");
             } else {
                 session.setAttribute("login", "false");
-                response.sendRedirect("login.html");
+                response.sendRedirect("all_users");
+
+//                response.sendRedirect("log/login.html");
             }
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);

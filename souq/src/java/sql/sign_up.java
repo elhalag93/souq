@@ -66,7 +66,7 @@ public class sign_up extends HttpServlet {
                 out.println(e.getLocalizedMessage());
             }
             if (state == false) {
-                out.println("sucess");
+                response.sendRedirect("/souq/log/login.html");
             }
 
         } catch (ClassNotFoundException ex) {
