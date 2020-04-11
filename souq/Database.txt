@@ -1,0 +1,220 @@
+////////////////////////////////////////////////////////////Building DataBase/////////////////////////////////////////////////////////////////////////////////
+CREATE DATABASE ourwebsite;
+\c ourwebsite;
+
+#creating new type privilege:
+CREATE TYPE privilege AS enum('customer','admin');
+
+#create users table
+CREATE TABLE users(user_id serial unique,privilege privilege,user_name text,password text,balance numeric,
+job text,email text primary key,address text,birth_date date,interests text);
+
+#create categories table 
+CREATE TABLE categories(category_id serial unique,
+category_name text primary key,category_icon text);
+
+#create products table 
+CREATE TABLE products(product_id serial unique,product_name text primary key,
+product_quantity integer,price numeric,short_des text,full_des text,
+category_id integer REFERENCES categories(category_id),product_url text);
+
+
+INSERT INTO users (privilege,user_name,password,balance,job,email,address,birth_date,interests) 
+values('customer','mohamed93','123456',3800.50,'Engineer','mohamed93@gmail.com','38kanatswes','2017-01-01','ayhabel');
+
+
+INSERT INTO users(privilege,user_name,password,balance,job,email,address,birth_date,interests)
+values('admin','mai93','345678',40000,'Administrator','may93@gmail.com','38kanatswes','2017-01-01','ay3abat');
+
+INSERT INTO categories (category_name,category_icon) VALUES('Mobile','URL1');
+INSERT INTO categories (category_name,category_icon) VALUES('Laptops','URL2');
+
+INSERT INTO products (product_name,product_quantity,price,short_des,full_des,category_id,product_url) 
+VALUES('iphone999000',3,45000,'ssafdsmnejr','adssasa',1,'URL1');
+
+INSERT INTO products (product_name,product_quantity,price,short_des,full_des,category_id,product_url) 
+VALUES('lenovo1111',4,74000,'sdads','aM DASNMDBDFEWHFF',2,'URL2');
+
+INSERT INTO products (product_name,product_quantity,price,short_des,full_des,category_id,product_url) 
+VALUES('habal1',6,45000,'sweeeeweeedasdas','VHDVEWFHGRHFQERJ',1,'URL3');
+
+INSERT INTO products (product_name,product_quantity,price,short_des,full_des,category_id,product_url) 
+VALUES('habal2',9,17000,'sdadsewewfcw','aDSNMFBWFUK',2,'URL4');
+
+INSERT INTO products (product_name,product_quantity,price,short_des,full_des,category_id,product_url) 
+VALUES('habl3',12,425000,'sadsadasdas','DNB EQFYEYWY',1,'URL5');
+
+INSERT INTO products (product_name,product_quantity,price,short_des,full_des,category_id,product_url) 
+VALUES('habl4',11,72000,'sdsfhuikik','aashbwqruhwiirend',2,'URL6');
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////CUSTOMER FUNCTIONS//////////////////////////////////////////////////////////////////////////////////
+CREATE OR REPLACE FUNCTION registerCheck(userName text,passwd text,
+userBalance numeric,user_Job text,userEmail text,userAddress text,birthDate date,
+interests text) RETURNS Boolean AS $$
+DECLARE
+	userID  integer;
+	isUserRegistered integer;
+
+BEGIN
+	SELECT COUNT(*) INTO  isUserRegistered FROM users WHERE 
+	email=userEmail;
+
+	IF isUserRegistered = 0
+	THEN 
+		INSERT INTO users(privilege,user_name,password,balance,job,email,address,birth_date,interests) VALUES('customer', userName, passwd,
+ 		userBalance, user_Job, userEmail, userAddress, birthdate, interests);
+		RETURN true;
+	Else
+		RETURN false;
+	END IF;
+END;
+$$LANGUAGE plpgsql; 
+
+SELECT registerCheck('mohab','12assasa',3800.50,'Engineer','mohab93@gmail.com','38swes','2017-01-01','ayhabel');
+DROP FUNCTION IF EXISTS  registerCheck(text,text,numeric,text,text,text,text,text);
+------------------------------------------------------------------------------------------------------------------------------------------------------------ 
+CREATE OR REPLACE FUNCTION loginCheck(loginEmail text, passwd text)RETURNS text AS $$
+DECLARE 
+	privilageResult  text;
+BEGIN
+
+	SELECT privilege INTO privilageResult FROM users WHERE email=loginEmail AND password=passwd;
+	IF privilageResult = 'customer' or privilageResult ='admin'
+	THEN
+		RETURN privilageResult;
+	ELSE
+		RETURN null;
+	END IF;
+END;
+$$LANGUAGE plpgsql;
+
+SELECT loginCheck('sandyyy93@gmail.com','ssasa');
+SELECT loginCheck('sandyyy93@gmail.com','a');  
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION retrieveAllUsers() RETURNS TABLE(userID integer,userName text,userPasswd text,
+	userBalance numeric,userJob text,userEmail text,userAddress text,userBDate date,userInterests text) AS $$
+BEGIN
+RETURN QUERY (SELECT user_id,user_name,password,balance,job,email,address,birth_date,
+interests FROM users WHERE privilege='customer');
+END;
+$$LANGUAGE plpgsql;
+
+SELECT * FROM retrieveAllUsers();
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION removeUser(userID integer) RETURNS Boolean AS $$
+DECLARE
+BEGIN
+	DELETE FROM users WHERE user_id=userID;
+	RETURN true;
+END;
+$$LANGUAGE plpgsql;  
+
+SELECT removeUser(10);
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////Category Functions///////////////////////////////////////////////////////////////////////////
+CREATE OR REPLACE FUNCTION addNewCategory (categoryName text, categoryIcon text) RETURNS Boolean AS $$
+DECLARE
+	numberOfCategories  integer;
+	isCategoryExist integer;
+BEGIN
+	SELECT COUNT(*) INTO isCategoryExist FROM categories WHERE category_name=categoryName;
+
+	If isCategoryExist =0
+	THEN
+            INSERT INTO categories (category_name,category_icon) VALUES(categoryName, categoryIcon);
+            RETURN true;
+ELSE
+	RETURN false;
+END IF;
+
+END;
+$$LANGUAGE plpgsql;
+
+SELECT addNewCategory('headphones','icon1111');  
+------------------------------------------------------------------------------------------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION removeCategory(categoryID integer) RETURNS Boolean AS $$
+DECLARE
+BEGIN
+	DELETE FROM categories WHERE category_id= categoryID;
+	RETURN true;
+END;
+$$LANGUAGE plpgsql;  
+
+SELECT removeCategory(3);
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////PRODUCTS FUNCTIONS/////////////////////////////////////////////////////////////////////////
+CREATE OR REPLACE FUNCTION addNewproduct(prodName text,prodQuantity integer,price numeric,shortDesc text, fullDesc text,categoryID integer,productURL text) RETURNS Boolean AS $$
+DECLARE
+	numberOfProducts  integer;
+	isItExist integer;
+ BEGIN
+	SELECT COUNT(*) INTO isItExist FROM products WHERE product_name= prodName;
+	If isItExist =0
+	THEN
+                INSERT INTO products (product_name,product_quantity,price,short_des,full_des,category_id,product_url) VALUES(prodName, prodQuantity,price,shortDesc,fullDesc,categoryID, productURL);
+		RETURN true;
+	ELSE
+		RETURN false;
+	END IF;
+END;
+$$LANGUAGE plpgsql;
+
+SELECT addNewproduct('product7',12,1700000,'shortdescProd7','fullDescProd7',1,'URL7');
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION removeProduct(prod_id integer) RETURNS Boolean AS $$
+DECLARE
+	isItExist integer;
+BEGIN
+	SELECT COUNT(*) INTO isItExist FROM products WHERE product_id= prod_id;
+	IF isItExist = 1
+	THEN
+		DELETE FROM products WHERE product_id= prod_id;
+		RETURN true;
+	ELSE
+		RETURN false;
+	END IF;
+END;
+$$LANGUAGE plpgsql;  
+
+SELECT removeProduct(5);
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION getProductInfo (prod_id int) RETURNS  SETOF products AS $$
+DECLARE
+BEGIN
+	RETURN QUERY (SELECT * FROM products WHERE product_id= prod_id);
+END;
+$$LANGUAGE plpgsql; 
+
+SELECT * FROM getProductInfo(8);
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION retrieveAllProducts() RETURNS SETOF products AS $$
+BEGIN
+RETURN QUERY (SELECT * FROM products);
+END;
+$$LANGUAGE plpgsql;
+
+SELECT * FROM retrieveAllProducts();
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION editProduct(prodID integer,prodName text,prodQuantity integer,prodPrice numeric,shortDesc text, fullDesc text,categoryID integer,productURL text) RETURNS Boolean AS $$
+DECLARE
+	isItExist integer;
+BEGIN
+	
+	SELECT COUNT(*) INTO isItExist FROM products WHERE product_id=prodID;
+	IF isItExist = 1
+	THEN
+		UPDATE products SET product_name=prodName, product_quantity=prodQuantity,
+		 price=prodPrice, short_des=shortDesc, full_des=fullDesc, category_id=categoryID, product_url=productURL WHERE product_id=prodID;
+		RETURN true;
+	ELSE
+		RETURN false;
+	END IF;
+END;
+$$LANGUAGE plpgsql;
+
+
+SELECT editProduct(13,'hp',250,30000,'ddscdad', '2swqsw',2,'hpurl');
+
+application=# DROP FUNCTION IF EXISTS editproduct (integer,text,integer,numeric,text,text,integer,text);
+DROP FUNCTION
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------

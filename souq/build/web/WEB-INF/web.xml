@@ -1,44 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <servlet>
-        <servlet-name>sign_up</servlet-name>
-        <servlet-class>sql.sign_up</servlet-class>
+        <servlet-name>loginCheck</servlet-name>
+        <servlet-class>ApplicationServlets.loginCheck</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>all_users</servlet-name>
-        <servlet-class>sql.all_users</servlet-class>
+        <servlet-name>registerCheck</servlet-name>
+        <servlet-class>ApplicationServlets.registerCheck</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>delet_user</servlet-name>
-        <servlet-class>sql.delet_user</servlet-class>
+        <servlet-name>customerList</servlet-name>
+        <servlet-class>ApplicationServlets.customerList</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>login</servlet-name>
-        <servlet-class>sql.login</servlet-class>
+        <servlet-name>deleteCustomer</servlet-name>
+        <servlet-class>ApplicationServlets.deleteCustomer</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>all_products</servlet-name>
-        <servlet-class>sql.all_products</servlet-class>
+        <servlet-name>productList</servlet-name>
+        <servlet-class>ApplicationServlets.productList</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>saveProduct</servlet-name>
+        <servlet-class>ApplicationServlets.saveProduct</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>deleteProduct</servlet-name>
+        <servlet-class>ApplicationServlets.deleteProduct</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>editProduct</servlet-name>
+        <servlet-class>ApplicationServlets.editProduct</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>updateProduct</servlet-name>
+        <servlet-class>ApplicationServlets.updateProduct</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>sign_up</servlet-name>
-        <url-pattern>/colorlib-regform-8/sign_up</url-pattern>
+        <servlet-name>loginCheck</servlet-name>
+        <url-pattern>/loginCheck</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>all_users</servlet-name>
-        <url-pattern>/log/all_users</url-pattern>
+        <servlet-name>registerCheck</servlet-name>
+        <url-pattern>/registerCheck</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>delet_user</servlet-name>
-        <url-pattern>/delet_user</url-pattern>
+        <servlet-name>customerList</servlet-name>
+        <url-pattern>/customerList</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>login</servlet-name>
-        <url-pattern>/log/login</url-pattern>
+        <servlet-name>deleteCustomer</servlet-name>
+        <url-pattern>/deleteCustomer</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>all_products</servlet-name>
-        <url-pattern>/all_products</url-pattern>
+        <servlet-name>productList</servlet-name>
+        <url-pattern>/productList</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>saveProduct</servlet-name>
+        <url-pattern>/saveProduct</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>deleteProduct</servlet-name>
+        <url-pattern>/deleteProduct</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>editProduct</servlet-name>
+        <url-pattern>/editProduct</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>updateProduct</servlet-name>
+        <url-pattern>/updateProduct</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
