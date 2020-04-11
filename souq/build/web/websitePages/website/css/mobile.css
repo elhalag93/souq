@@ -1,0 +1,78 @@
+
+
+
+
+.laptop .container{
+    background-color: burlywood;
+}
+
+.laptop .container >div{
+    width: 7%;
+    margin-left: 60px;
+    padding: 10%;
+    background-color: #efe0ed;
+    height: 155px;
+    display: inline-block;
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+}
+
+
+.laptop .container >div p{
+    font-size: 9px;
+    text-align: left;
+    color: #333;
+    margin-top: -83px;
+    margin-bottom: 28px;
+}
+
+
+.laptop .container >div button{
+    width: 140px;
+    padding: 9px;
+    margin: auto;
+    display: inline-block;
+    border: none;
+    border-radius: 5px;
+    background: #15c192;
+    font-size: 19px;
+    font-weight: bold;
+    margin-top: 39px;
+}
+
+
+.laptop .container img{
+    max-width: 156%;
+    /* display: inline-flex; */
+    max-height: 166px;
+}
+
+/* .laptop .container .first{
+    background-image: url(../img/mobiles/1.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+     max-width: 40px;
+    max-height: 37px;
+    margin-top: 11px; 
+} */
+
+
+/* .laptop .container .second{
+    background-image: url(../img/mobiles/2.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+     max-width: 40px;
+    max-height: 37px;
+    margin-top: 11px; 
+} */
+/* 
+.laptop .container .third{
+    background-image: url(../img/mobiles/3.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    max-width: 40px;
+    max-height: 37px;
+    margin-top: 11px; 
+}   */
+
