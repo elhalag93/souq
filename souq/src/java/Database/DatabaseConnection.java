@@ -15,9 +15,9 @@ import java.util.Vector;
 
 public class DatabaseConnection {
     
-    private final String url = "jdbc:postgresql://localhost:5432/application";
+    private final String url = "jdbc:postgresql://localhost:5432/souq";
     private final String user = "postgres";
-    private final String password = "postgres";
+    private final String password = "mohamed";
     
     private Connection connection;
     private String sqlcommand;
@@ -25,9 +25,10 @@ public class DatabaseConnection {
     private ResultSet result;
     Boolean state =false;
     String privilage;
+    Product product=new Product();
 
     
-    private void connect(){        
+    public void connect(){        
         try {         
             Class.forName("org.postgresql.Driver");
             connection = DriverManager.getConnection(url, user, password);
@@ -149,6 +150,39 @@ public class DatabaseConnection {
             stop();
         }  
     }    
+    
+    /////////////////////////////////////////////////////////////////////////////////////////
+    public Product selectProduct(int _id){
+        connect();
+       
+        try {
+            sqlcommand = "SELECT  product_name, product_quantity, price, short_des, full_des, category_id, product_url from products where product_id=?";
+             
+            
+            preparedstatement = connection.prepareStatement(sqlcommand,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+
+            preparedstatement.setInt(1,_id);
+
+            result = preparedstatement.executeQuery();
+            result.first();
+            product.setProductName(result.getString(1));
+            product.setProductQuantity(result.getInt(2));
+            product.setProductPrice(result.getInt(3));
+            product.setProductShortDesc(result.getString(4));
+            product.setProductFullDesc(result.getString(5));
+            product.setCategoryId(result.getInt(6));
+            product.setProductURL(result.getString(7));
+            
+            System.out.println("Product Edited Successfully" + product.getProductName());
+           // System.out.println("Product has been deleted successfully");
+        } catch (SQLException ex) {
+            System.out.println("Something wrong happened");
+            Logger.getLogger(DatabaseConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        stop();
+        return product;
+    }
+    
     ////////////////////////////////////////////////////////////////////////////////////////
     
     ///////////////////-------------Category--------------/////////////////////////////////

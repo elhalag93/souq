@@ -2,6 +2,14 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/E:/iti/web_service/github/souq/souq/src/java/ApplicationServlets/cart_servlet.java</file>
+            <file>file:/E:/iti/web_service/github/souq/souq/src/java/ModelObjects/cart_object.java</file>
+            <file>file:/E:/iti/web_service/github/souq/souq/src/java/Database/DatabaseConnection.java</file>
+            <file>file:/E:/iti/web_service/github/souq/souq/nbproject/build-impl.xml</file>
+            <file>file:/E:/iti/web_service/github/souq/souq/src/java/ModelObjects/Product.java</file>
+            <file>file:/E:/iti/web_service/github/souq/souq/web/LoginPage/login.html</file>
+            <file>file:/E:/iti/web_service/github/souq/souq/src/java/ApplicationServlets/loginCheck.java</file>
+        </group>
     </open-files>
 </project-private>
